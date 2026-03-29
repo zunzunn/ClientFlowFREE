@@ -1,4 +1,4 @@
-## 💎 ClientFlow Pro (Coming Soon)
+## 💎 ClientFlow Pro
 
 Take your freelance workflow to the next level with **ClientFlow Pro** — built for creators who want to stay organized, close more deals, and look professional.
 
