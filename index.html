@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ClientFlow (Free Version)</title>
+    <script>
+        tailwind = {
+            config: {
+                theme: {
+                    extend: {
+                        fontFamily: {
+                            sans: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"],
+                        },
+                        boxShadow: {
+                            soft: "0 10px 30px rgba(0, 0, 0, 0.25)",
+                        },
+                    },
+                },
+            },
+        };
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+        .fade-in {
+            animation: fadeIn 0.35s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+
+            body {
+                background: #ffffff !important;
+            }
+
+            #invoice-preview {
+                display: block !important;
+                box-shadow: none !important;
+                border: 1px solid #e5e7eb !important;
+                background: #ffffff !important;
+                color: #111827 !important;
+                margin: 0 !important;
+                width: 100% !important;
+            }
+        }
+    </style>
+</head>
+
+<body class="min-h-screen bg-slate-950 text-slate-100 font-sans antialiased">
+    <div class="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
+        <header class="mb-8 fade-in">
+            <p class="text-sm text-slate-400">Smart Branding Project</p>
+            <h1 class="mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">ClientFlow</h1>
+            <p class="mt-2 max-w-2xl text-slate-400">
+                Beginner-friendly freelance workspace to track clients, generate cold DMs, and create simple invoices.
+            </p>
+        </header>
+
+        <nav class="no-print mb-6 fade-in">
+            <div
+                class="grid grid-cols-1 gap-2 rounded-2xl border border-slate-800 bg-slate-900/70 p-2 shadow-soft sm:grid-cols-3">
+                <button class="tab-btn rounded-xl px-4 py-3 text-sm font-medium transition hover:bg-slate-800/80"
+                    data-tab="clients">
+                    Client Tracker
+                </button>
+                <button class="tab-btn rounded-xl px-4 py-3 text-sm font-medium transition hover:bg-slate-800/80"
+                    data-tab="dm">
+                    DM Generator
+                </button>
+                <button class="tab-btn rounded-xl px-4 py-3 text-sm font-medium transition hover:bg-slate-800/80"
+                    data-tab="invoice">
+                    Invoice
+                </button>
+            </div>
+        </nav>
+
+        <main>
+            <section id="tab-clients" class="tab-content fade-in space-y-6">
+                <div class="rounded-2xl border border-slate-800 bg-slate-900/70 p-5 shadow-soft sm:p-6">
+                    <h2 class="text-xl font-semibold">Client Tracker</h2>
+                    <p class="mt-1 text-sm text-slate-400">Add and manage your leads in one place.</p>
+
+                    <form id="client-form" class="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                        <label class="space-y-2 sm:col-span-1">
+                            <span class="text-sm text-slate-300">Client Name</span>
+                            <input id="client-name" type="text" required placeholder="Acme Studio"
+                                class="w-full rounded-xl border border-slate-700 bg-slate-950/70 px-3 py-2.5 text-sm outline-none transition focus:border-sky-500" />
+                        </label>
+
+                        <label class="space-y-2 sm:col-span-1">
+                            <span class="text-sm text-slate-300">Status</span>
+                            <select id="client-status"
+                                class="w-full rounded-xl border border-slate-700 bg-slate-950/70 px-3 py-2.5 text-sm outline-none transition focus:border-sky-500">
+                                <option>Lead</option>
+                                <option>Contacted</option>
+                                <option>Closed</option>
+                            </select>
+                        </label>
+
+                        <label class="space-y-2 sm:col-span-2">
+                            <span class="text-sm text-slate-300">Notes</span>
+                            <textarea id="client-notes" rows="3"
+                                placeholder="Met on Instagram, interested in short-form content..."
+                                class="w-full resize-none rounded-xl border border-slate-700 bg-slate-950/70 px-3 py-2.5 text-sm outline-none transition focus:border-sky-500"></textarea>
+                        </label>
+
+                        <div class="sm:col-span-2">
+                            <button type="submit"
+                                class="inline-flex items-center rounded-xl bg-sky-500 px-4 py-2.5 text-sm font-medium text-slate-950 transition hover:bg-sky-400">
+                                Add Client
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="clients-list" class="grid grid-cols-1 gap-4"></div>
+            </section>
+
+            <section id="tab-dm" class="tab-content hidden fade-in space-y-6">
+                <div class="rounded-2xl border border-slate-800 bg-slate-900/70 p-5 shadow-soft sm:p-6">
+                    <h2 class="text-xl font-semibold">Cold DM Generator</h2>
+                    <p class="mt-1 text-sm text-slate-400">Generate ready-to-send outreach messages in seconds.</p>
+
+                    <div class="mt-5 flex flex-col gap-3 sm:flex-row">
+                        <input id="dm-niche" type="text" placeholder="Enter niche (e.g. gym, real estate)"
+                            class="w-full rounded-xl border border-slate-700 bg-slate-950/70 px-3 py-2.5 text-sm outline-none transition focus:border-sky-500" />
+                        <button id="generate-dm"
+                            class="rounded-xl bg-sky-500 px-4 py-2.5 text-sm font-medium text-slate-950 transition hover:bg-sky-400">
+                            Generate
+                        </button>
+                    </div>
+                </div>
+
+                <div id="dm-results" class="grid grid-cols-1 gap-4"></div>
+            </section>
+
+            <section id="tab-invoice" class="tab-content hidden fade-in space-y-6">
+                <div class="rounded-2xl border border-slate-800 bg-slate-900/70 p-5 shadow-soft sm:p-6">
+                    <h2 class="text-xl font-semibold">Invoice Generator</h2>
+                    <p class="mt-1 text-sm text-slate-400">Create a simple invoice and print it as PDF.</p>
+
+                    <form id="invoice-form" class="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                        <label class="space-y-2 sm:col-span-1">
+                            <span class="text-sm text-slate-300">Client Name</span>
+                            <input id="invoice-client" type="text" required
+                                class="w-full rounded-xl border border-slate-700 bg-slate-950/70 px-3 py-2.5 text-sm outline-none transition focus:border-sky-500" />
+                        </label>
+
+                        <label class="space-y-2 sm:col-span-1">
+                            <span class="text-sm text-slate-300">Amount</span>
+                            <input id="invoice-amount" type="number" min="0" step="0.01" required
+                                class="w-full rounded-xl border border-slate-700 bg-slate-950/70 px-3 py-2.5 text-sm outline-none transition focus:border-sky-500" />
+                        </label>
+
+                        <label class="space-y-2 sm:col-span-2">
+                            <span class="text-sm text-slate-300">Service Description</span>
+                            <textarea id="invoice-service" rows="3" required
+                                class="w-full resize-none rounded-xl border border-slate-700 bg-slate-950/70 px-3 py-2.5 text-sm outline-none transition focus:border-sky-500"></textarea>
+                        </label>
+
+                        <div class="sm:col-span-2">
+                            <button type="submit"
+                                class="inline-flex items-center rounded-xl bg-sky-500 px-4 py-2.5 text-sm font-medium text-slate-950 transition hover:bg-sky-400">
+                                Generate Invoice
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="invoice-preview"
+                    class="hidden rounded-2xl border border-slate-800 bg-slate-900 p-6 shadow-soft">
+                    <div class="flex items-start justify-between gap-4 border-b border-slate-700 pb-4">
+                        <div>
+                            <p class="text-xs uppercase tracking-wider text-slate-400">Invoice From</p>
+                            <h3 class="mt-1 text-2xl font-semibold">ClientFlow</h3>
+                        </div>
+                        <div class="text-right text-sm text-slate-300">
+                            <p id="invoice-date"></p>
+                        </div>
+                    </div>
+
+                    <div class="mt-5 space-y-2 text-sm">
+                        <p><span class="text-slate-400">Client:</span> <span id="preview-client"></span></p>
+                        <p><span class="text-slate-400">Service:</span> <span id="preview-service"></span></p>
+                        <p class="pt-2 text-lg font-semibold">
+                            <span class="text-slate-400 text-sm font-normal">Amount:</span>
+                            $<span id="preview-amount"></span>
+                        </p>
+                    </div>
+
+                    <button id="print-invoice"
+                        class="no-print mt-6 rounded-xl border border-slate-700 px-4 py-2.5 text-sm font-medium transition hover:border-slate-500 hover:bg-slate-800">
+                        Print / Save as PDF
+                    </button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
